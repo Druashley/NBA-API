@@ -18,10 +18,9 @@ const getCurrentDay = () => {
   }
 };
 
-const currentYear = Date().currentYear();
+const currentYear = new Date().getFullYear();
 const currentMonth = getCurrentMonth();
 const currentDay = getCurrentDay();
 
-console.log(currentYear);
-console.log(currentMonth);
-console.log(currentDay);
+export const getPlayerURL = (playerName) =>
+  `${baseURL}v1/players?search=${playerName}`;
