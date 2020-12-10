@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import ChartTest from "./ChartTest";
 
 const ComparisonSection = ({ playerList }) => {
+  const [chartKey, setChartKey] = useState("");
+
+  const setChartKeyHandler = (e) => {
+    setChartKey(e.target.innerText);
+  };
   return (
     <div>
+      <div>
+        {playerList && chartKey ? (
+          <ChartTest playerList={playerList} chartKey={chartKey} />
+        ) : (
+          ""
+        )}
+      </div>
       <Table responsive>
         <thead>
           <tr>
             <th>Remove?</th>
             <th>Name</th>
             <th>Games Played</th>
-            <th>PTS</th>
+            <th onClick={setChartKeyHandler}>PTS</th>
             <th>MIN</th>
-            <th>FG%</th>
+            <th onClick={setChartKeyHandler}>FG%</th>
             <th>FG-M</th>
             <th>FG-A</th>
             <th>3%</th>
@@ -67,7 +79,6 @@ const ComparisonSection = ({ playerList }) => {
           ))}
         </tbody>
       </Table>
-      <div>{playerList ? <ChartTest playerList={playerList} /> : ""}</div>
     </div>
   );
 };

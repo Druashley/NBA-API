@@ -1,95 +1,60 @@
 import React from "react";
 import {
-  Radar,
-  RadarChart,
-  PolarGrid,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   Legend,
-  PolarAngleAxis,
-  PolarRadiusAxis,
 } from "recharts";
 
-const ChartTest = (playerList) => {
-  //   console.log(playerList.playerList[0].playerStats[0].fg3_pct);
+const ChartTest = ({ playerList, chartKey }) => {
+  let allData = [];
+  let objectKey = "";
 
-  let playerListData = playerList.playerList.map((player) => [
-    { subject: "FG%", A: player.playerStats[0].fg_pct * 100, fullMark: 150 },
-    { subject: "3%", A: player.playerStats[0].fg3_pct * 100, fullMark: 100 },
-    {
-      subject: "FT%",
-      A: player.playerStats[0].ft_pct * 100,
-      fullMark: 100,
-    },
-  ]);
+  // this switch statements changes the title of a given stat to the correct key the api spits out :)
+  switch (chartKey) {
+    case "PTS":
+      objectKey = "pts";
+      break;
+    case "FG%":
+      objectKey = "fg_pct";
+    default:
+      break;
+  }
 
-  const data = [
-    {
-      subject: "FG%",
-      A: 120,
-      fullMark: 150,
-    },
-    {
-      subject: "3%",
-      A: 98,
-      fullMark: 150,
-    },
-    {
-      subject: "FT%",
-      A: 100,
-      fullMark: 150,
-    },
-  ];
-
-  console.log(playerList.playerList);
-  console.log(data);
-  console.log(playerListData[0]);
+  let playerListData = playerList.slice("");
+  playerListData.map((player) =>
+    allData.push({
+      name: `${player.playerFirstName} ${player.playerLastName}`,
+      [chartKey]: player.playerStats[0][objectKey],
+    })
+  );
 
   return (
-    <RadarChart
-      //   cx={300}
-      //   cy={250}
-      outerRadius={200}
-      width={500}
-      height={500}
-      data={playerListData[0]}
-    >
-      <PolarGrid />
-      <PolarAngleAxis dataKey="subject" />
-      <Radar
-        name="Mike"
-        dataKey="A"
-        stroke="#8884d8"
-        fill="#8884d8"
-        fillOpacity={0.6}
-      />
-      //{" "}
-      <Radar
-        name="Lily"
-        dataKey="B"
-        stroke="#82ca9d"
-        fill="#82ca9d"
-        fillOpacity={0.6}
-      />
-      // <Legend />
-      //{" "}
-    </RadarChart>
+    <div>
+      <BarChart
+        width={500}
+        height={300}
+        data={allData}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey={chartKey} fill="#8884d8" />
+        {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+      </BarChart>
+    </div>
   );
 };
-
-// export default class Example extends PureComponent {
-//   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/dpgb3xjq/';
-
-//   render() {
-//     return (
-//       <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={data}>
-//         <PolarGrid />
-//         <PolarAngleAxis dataKey="subject" />
-//         <PolarRadiusAxis angle={30} domain={[0, 150]} />
-//         <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-//         <Radar name="Lily" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-//         <Legend />
-//       </RadarChart>
-//     );
-//   }
-// }
 
 export default ChartTest;
