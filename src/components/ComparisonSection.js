@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button } from "react-bootstrap";
+import ChartTest from "./ChartTest";
 
 const ComparisonSection = ({ playerList }) => {
   return (
@@ -66,7 +67,7 @@ const ComparisonSection = ({ playerList }) => {
           ))}
         </tbody>
       </Table>
-      <div></div>
+      <div>{playerList ? <ChartTest playerList={playerList} /> : ""}</div>
     </div>
   );
 };
