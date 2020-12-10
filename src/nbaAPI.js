@@ -24,3 +24,6 @@ const currentDay = getCurrentDay();
 
 export const getPlayerURL = (playerName) =>
   `${baseURL}v1/players?search=${playerName}`;
+
+export const getPlayerStatsURL = (id) =>
+  `${baseURL}v1/season_averages?player_ids[]=${id}`;
