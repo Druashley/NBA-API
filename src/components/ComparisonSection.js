@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import { Table, Button } from "react-bootstrap";
-import ChartTest from "./ChartTest";
+import BarGraph from "./BarGraph";
+import "../styles/_comparisonSection.scss";
 
-const ComparisonSection = ({ playerList }) => {
+const ComparisonSection = ({ playerList, setPlayerList }) => {
   const [chartKey, setChartKey] = useState("");
 
   const setChartKeyHandler = (e) => {
     setChartKey(e.target.innerText);
   };
+
+  const removePlayerListHandler = (playerId) => {
+    let removePlayerList = playerList.filter(
+      (player) => playerId !== player.playerId
+    );
+
+    setPlayerList(removePlayerList);
+  };
+
   return (
     <div>
       <div>
         {playerList && chartKey ? (
-          <ChartTest playerList={playerList} chartKey={chartKey} />
+          <BarGraph playerList={playerList} chartKey={chartKey} />
         ) : (
           ""
         )}
@@ -23,32 +33,72 @@ const ComparisonSection = ({ playerList }) => {
             <th>Remove?</th>
             <th>Name</th>
             <th>Games Played</th>
-            <th onClick={setChartKeyHandler}>PTS</th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              PTS
+            </th>
             <th>MIN</th>
-            <th onClick={setChartKeyHandler}>FG%</th>
-            <th>FG-M</th>
-            <th>FG-A</th>
-            <th>3%</th>
-            <th>3-M</th>
-            <th>3-A</th>
-            <th>FT%</th>
-            <th>FT-M</th>
-            <th>FT-A</th>
-            <th>REB</th>
-            <th>O-REB</th>
-            <th>D-REB</th>
-            <th>AST</th>
-            <th>STL</th>
-            <th>BLK</th>
-            <th>TO</th>
-            <th>PF</th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FG%
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FG-M
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FG-A
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              3%
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              3-M
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              3-A
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FT%
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FT-M
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              FT-A
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              REB
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              O-REB
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              D-REB
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              AST
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              STL
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              BLK
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              TO
+            </th>
+            <th onClick={setChartKeyHandler} className="click-me">
+              PF
+            </th>
           </tr>
         </thead>
         <tbody>
           {playerList.map((player) => (
             <tr key={player.playerId}>
               <td>
-                <Button variant="danger" size="sm">
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => removePlayerListHandler(player.playerId)}
+                >
                   X
                 </Button>
               </td>

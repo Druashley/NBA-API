@@ -51,7 +51,10 @@ const HomeSection = () => {
         <p>Search up NBA players and compare their stats!</p>
       </Jumbotron>
       {playerList.length > 0 ? (
-        <ComparisonSection playerList={playerList} />
+        <ComparisonSection
+          playerList={playerList}
+          setPlayerList={setPlayerList}
+        />
       ) : (
         ""
       )}
@@ -61,13 +64,14 @@ const HomeSection = () => {
           <Form.Label>Search for a player by Name</Form.Label>
           <Form.Control ref={nameInputValue} type="text" placeholder="Lebron" />
         </Form.Group>
+        <Button onClick={playerSearchHandler}>Search</Button>
       </Form>
-      <Button onClick={playerSearchHandler}>Search</Button>
+
       <div>
         <CardDeck className="mt-5">
           {searchedPlayers
             ? searchedPlayers.map((player) => (
-                <Card key={player.id} id={player.id}>
+                <Card key={player.id} id={player.id} style={{ width: "18rem" }}>
                   <Card.Body>
                     <Card.Title>
                       {player.first_name} {player.last_name}
@@ -96,9 +100,6 @@ const HomeSection = () => {
                       className="mt-3"
                     >
                       Compare
-                    </Button>
-                    <Button className="mt-3" variant="outline-success">
-                      See Stats
                     </Button>
                   </Card.Body>
                 </Card>
