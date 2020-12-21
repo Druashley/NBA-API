@@ -8,13 +8,13 @@ const ComparisonSection = ({ playerList, setPlayerList }) => {
 
   const setChartKeyHandler = (e) => {
     setChartKey(e.target.innerText);
+    console.log(playerList);
   };
 
   const removePlayerListHandler = (playerId) => {
     let removePlayerList = playerList.filter(
       (player) => playerId !== player.playerId
     );
-
     setPlayerList(removePlayerList);
   };
 
@@ -32,6 +32,7 @@ const ComparisonSection = ({ playerList, setPlayerList }) => {
           <tr>
             <th>Remove?</th>
             <th>Name</th>
+            <th>Season</th>
             <th>Games Played</th>
             <th onClick={setChartKeyHandler} className="click-me">
               PTS
@@ -92,7 +93,7 @@ const ComparisonSection = ({ playerList, setPlayerList }) => {
         </thead>
         <tbody>
           {playerList.map((player) => (
-            <tr key={player.playerId}>
+            <tr key={player.playerId * Math.random()}>
               <td>
                 <Button
                   variant="danger"
@@ -105,6 +106,7 @@ const ComparisonSection = ({ playerList, setPlayerList }) => {
               <td>
                 {player.playerFirstName} {player.playerLastName}
               </td>
+              <td>{player.playerStats[0].season}</td>
               <td>{player.playerStats[0].games_played}</td>
               <td>{player.playerStats[0].pts}</td>
               <td>{player.playerStats[0].min}</td>

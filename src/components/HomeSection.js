@@ -6,8 +6,9 @@ import {
   Container,
   Jumbotron,
   CardDeck,
+  Dropdown,
 } from "react-bootstrap";
-import { getPlayerURL, getPlayerStatsURL } from "../nbaAPI";
+import { getPlayerURL, getPlayerStatsURL, currentYear } from "../nbaAPI";
 import positionHandler from "./positionHandler";
 import axios from "axios";
 import ComparisonSection from "./ComparisonSection";
@@ -16,6 +17,8 @@ import "../styles/_home.scss";
 const HomeSection = () => {
   const [searchedPlayers, setSearchedPlayers] = useState(null);
   const [playerList, setPlayerList] = useState([]);
+  const [season, setSeason] = useState("2019");
+  const [playerActive, setPlayerActive] = useState(false);
 
   const nameInputValue = useRef(null);
 
@@ -38,10 +41,28 @@ const HomeSection = () => {
       playerFirstName: playerFirstName,
       playerLastName: playerLastName,
       playerTeamName: playerTeamName,
-      playerStats: (await axios.get(getPlayerStatsURL(playerId))).data.data,
+      playerStats: (await axios.get(getPlayerStatsURL(playerId, season))).data
+        .data,
     };
+
     initialPlayerList.push(playerInfo);
     setPlayerList(initialPlayerList);
+  };
+
+  const setSeasonHandler = async (e, playerId) => {
+    setSeason(e.target.text);
+    playerSeasonTester(playerId);
+  };
+
+  const playerSeasonTester = async (playerId) => {
+    if (
+      (await axios.get(getPlayerStatsURL(playerId, season))).data.data.length >
+      0
+    ) {
+      setPlayerActive(true);
+    } else {
+      setPlayerActive(false);
+    }
   };
 
   return (
@@ -87,20 +108,103 @@ const HomeSection = () => {
                         ? `Height: ${player.height_feet} foot ${player.height_inches} `
                         : ""}
                     </Card.Subtitle>
-                    <Button
-                      variant="outline-primary"
-                      onClick={() =>
-                        setPlayerListHandler(
-                          player.id,
-                          player.first_name,
-                          player.last_name,
-                          player.team.full_name
-                        )
-                      }
-                      className="mt-3"
-                    >
-                      Compare
+                    {playerActive ? (
+                      <Button
+                        variant="outline-primary"
+                        onClick={() =>
+                          setPlayerListHandler(
+                            player.id,
+                            player.first_name,
+                            player.last_name,
+                            player.team.full_name
+                          )
+                        }
+                        className="mt-3 mb-3"
+                      >
+                        Compare
+                      </Button>
+                    ) : (
+                      <Button variant="outline-danger" className="mt-3 mb-3">
+                        No Stats
+                      </Button>
+                    )}
+
+                    <Button onClick={() => playerSeasonTester(player.id)}>
+                      Did they play?
                     </Button>
+                    <Dropdown>
+                      <Dropdown.Toggle
+                        variant="outline-success"
+                        id="dropdown-basic"
+                      >
+                        {season}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2020
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2019
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2018
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2017
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2016
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2015
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2014
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2013
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2012
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2011
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2010
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2009
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2008
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2007
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2006
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2005
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2004
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2003
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2002
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2001
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={setSeasonHandler}>
+                          2000
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </Card.Body>
                 </Card>
               ))
